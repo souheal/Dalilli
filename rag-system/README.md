@@ -80,12 +80,71 @@ rag-system/
 └── README.md
 ```
 
+## Models Used
+
+This project uses **3 types of AI models**, all running locally:
+
+### 1. LLM (Large Language Model) - via Ollama
+
+The main brain that generates answers from retrieved documents.
+
+| Model | Size | Description |
+|-------|------|-------------|
+| **Llama 3.1** (default) | ~4.7 GB | Meta's latest open-source model, great for Q&A |
+
+**How to add/switch models:**
+
+```bash
+# Install any Ollama-supported model
+ollama pull llama3.1        # Default model
+ollama pull mistral         # Alternative - fast and lightweight
+ollama pull mixtral          # Mixture of experts - higher quality
+ollama pull gemma2           # Google's open model
+ollama pull phi3             # Microsoft's small but capable model
+
+# Verify installed models
+ollama list
+```
+
+The model is selected **per-request** from the UI - no backend restart needed. Just pull a new model and select it.
+
+### 2. Embedding Model - BAAI/bge-m3
+
+Converts text into vectors for semantic search. Downloaded automatically on first run.
+
+| Model | Size | Description |
+|-------|------|-------------|
+| **BAAI/bge-m3** | ~2.2 GB | Multilingual embedding model (100+ languages, including Arabic) |
+
+- Stored locally in: `bg/bge-m3/`
+- Downloaded automatically from HuggingFace on first run
+- To use a pre-downloaded model, place it in the `bg/bge-m3/` directory
+
+### 3. Re-ranker Model (Optional)
+
+Re-ranks search results for better relevance. Disabled by default.
+
+| Model | Size | Description |
+|-------|------|-------------|
+| **cross-encoder/ms-marco-MiniLM-L-6-v2** | ~80 MB | Fast cross-encoder for result re-ranking |
+
+- Enable in `.env`: `ENABLE_RERANKING=true`
+- Downloaded automatically from HuggingFace when enabled
+
+### 4. OCR - Tesseract (Optional)
+
+For processing scanned documents and images. Not an AI model per se, but required for OCR.
+
+- Enable in `.env`: `ENABLE_OCR=true`
+- Requires separate installation (see below)
+
 ## Prerequisites
 
 - Node.js 18+
 - Python 3.10+
 - Ollama (for local LLM inference)
 - Tesseract OCR (optional, for OCR support)
+- Poppler (optional, for PDF OCR)
 
 ## Installation
 
@@ -94,9 +153,12 @@ rag-system/
 ```bash
 # Install Ollama from https://ollama.ai
 
-# Pull required models
-ollama pull llama3
+# Pull the default model
+ollama pull llama3.1
+
+# (Optional) Pull additional models
 ollama pull mistral
+ollama pull gemma2
 ```
 
 ### 2. Backend Setup

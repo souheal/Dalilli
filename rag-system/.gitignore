@@ -97,6 +97,11 @@ models/
 rag-system/bg/
 rag-system/models/
 models/
+# Local models
+bg/
+
+# Local database
+data/app.db
 
 # Large model files
 *.bin
@@ -105,7 +110,10 @@ models/
 *.onnx
 *.onnx_data
 *.safetensors
-
+# Databases
+*.db
+*.sqlite
+*.sqlite3
 # HuggingFace / Transformers cache
 huggingface/
 hf_cache/
