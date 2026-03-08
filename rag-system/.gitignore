@@ -89,3 +89,43 @@ models/
 *.pem
 *.key
 *.cert
+# =========================
+# AI / ML Models (Do not upload)
+# =========================
+
+# Local embedding models
+rag-system/bg/
+rag-system/models/
+models/
+
+# Large model files
+*.bin
+*.pt
+*.pth
+*.onnx
+*.onnx_data
+*.safetensors
+
+# HuggingFace / Transformers cache
+huggingface/
+hf_cache/
+transformers_cache/
+
+# Vector databases
+*.faiss
+*.index
+*.pkl
+*.parquet
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated chunk data
+*_chunked.json
+
+# Large documents
+*.pdf
+*.docx
+*.pptx
